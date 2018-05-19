@@ -41,20 +41,18 @@ switch (argument) {
         request("https://www.omdbapi.com/?t=" + movieArg + "&y=&plot=short&apikey=trilogy", function (error, body) {
             if (error) {
                 return console.log('error:', + error);
-            } else
-            console.log(body); // How do I break this apart?
+            } else {
+                var movieBody = JSON.parse(body.body);
+                console.log(`Title: ${movieBody.Title}`);
+                console.log(`Release Date: ${movieBody.Released}`);
+                console.log(`IMDB Rating: ${movieBody.Ratings[0].Value}`);
+                console.log(`RT Rating: ${movieBody.Ratings[1].Value}`);
+                console.log(`Country: ${movieBody.Country}`);
+                console.log(`Language: ${movieBody.Language}`);
+                console.log(`Plot: ${movieBody.Plot}`);
+                console.log(`Actors: ${movieBody.Actors}`);
+            }
         });
-                // (`
-            // Title: ${movie}
-            // Release Year:
-            // IMDB Rating:
-            // RT Rating:
-            // Country:
-            // Language:
-            // Plot:
-            // Actors:
-            // `))
-        // );
         break;
     case "do-what-it-says":
         break;
