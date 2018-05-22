@@ -25,21 +25,17 @@ switch (argument) {
         });
         break;
     case "spotify-this-song":
-        var spotify = new Spotify(keys.spotify);
-        spotify.search({ type: 'track', query: songArg }, function (error, data) {
-            if (error) {
-                return console.log('Error occurred: ' + error);
-            } else
-                console.log(toTitleCase(`
-                Song: ${songArg}`),
-                    (`
-                Artist: ${data.tracks.items[0].album.artists[0].name}
-                Album: ${data.tracks.items[0].album.name}
-                Preview: ${data.tracks.items[0].album.artists[0].external_urls.spotify}
-                `));
-        });
+        if (!songArg) {
+            songArg = "The Sign Ace of Base"
+        }
+        spotifyTxt(songArg);
         break;
     case "movie-this":
+        if (!movieArg) {
+            console.log("If you haven't watched 'Mr. Nobody,' then you should: <http://www.imdb.com/title/tt0485947/>")
+            console.log("It's on Netflix!")
+            movieArg = "Mr. Nobody"
+        }
         request("https://www.omdbapi.com/?t=" + movieArg + "&y=&plot=short&apikey=trilogy", function (error, body) {
             if (error) {
                 return console.log('error:', + error);
@@ -57,30 +53,35 @@ switch (argument) {
         });
         break;
     case "do-what-it-says":
-
-
-        // This block of code will read from the "movies.txt" file.
-        // It's important to include the "utf8" parameter or the code will provide stream data (garbage)
-        // The code will store the contents of the reading inside the variable "data"
         fs.readFile("random.txt", "utf8", function (error, data) {
-
-            // If the code experiences any errors it will log the error to the console.
             if (error) {
                 return console.log(error);
             }
 
-            // We will then print the contents of data
             console.log(data);
 
-            // Then split it by commas (to make it more readable)
             var dataArr = data.split(",");
-
-            // We will then re-display the content as an array for later use.
-            console.log(dataArr);
+            spotifyTxt(dataArr[1]);
 
         });
 
         break;
+}
+function spotifyTxt(songArg) {
+    var spotify = new Spotify(keys.spotify);
+    spotify.search({ type: 'track', query: songArg }, function (error, data) {
+        if (error) {
+            return console.log('Error occurred: ' + error);
+        } else
+            console.log(toTitleCase(`
+            Song: ${songArg}`),
+                (`
+            Artist: ${data.tracks.items[0].album.artists[0].name}
+            Album: ${data.tracks.items[0].album.name}
+            Preview: ${data.tracks.items[0].album.artists[0].external_urls.spotify}
+            `));
+
+    })
 }
 
 ///Capitalize first letters of song argument on call-back
