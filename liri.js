@@ -17,8 +17,10 @@ switch (argument) {
         client.get('statuses/user_timeline', params, function (error, tweets, response) {
             if (!error) {
                 for (var i = 0; i < tweets.length; i++) {
-                    console.log(tweets[i].text);
-                    console.log(tweets[i].created_at);
+                    console.log(`
+                    Tweeted: ${tweets[i].text}
+                    On: ${tweets[i].created_at}
+                    `);
                 }
             }
             console.log(error)
@@ -41,14 +43,16 @@ switch (argument) {
                 return console.log('error:', + error);
             } else {
                 var movieBody = JSON.parse(body.body);
-                console.log(`Title: ${movieBody.Title}`);
-                console.log(`Release Date: ${movieBody.Released}`);
-                console.log(`IMDB Rating: ${movieBody.Ratings[0].Value}`);
-                console.log(`RT Rating: ${movieBody.Ratings[1].Value}`);
-                console.log(`Country: ${movieBody.Country}`);
-                console.log(`Language: ${movieBody.Language}`);
-                console.log(`Plot: ${movieBody.Plot}`);
-                console.log(`Actors: ${movieBody.Actors}`);
+                console.log(`
+                Title: ${movieBody.Title}
+                Release Date: ${movieBody.Released}
+                IMDB Rating: ${movieBody.Ratings[0].Value}
+                RT Rating: ${movieBody.Ratings[1].Value}
+                Country: ${movieBody.Country}
+                Language: ${movieBody.Language}
+                Plot: ${movieBody.Plot}
+                Actors: ${movieBody.Actors}
+                `);
             }
         });
         break;
